@@ -6,6 +6,7 @@ public enum MoveStatus {
     INPUT_FORMAT_ERROR("Format of input move is not correct. Please follow this example-> ");
     //TODO INPUT_FORMAT_ERROR
 
+
     private final String message;
 
     MoveStatus(String message) {
