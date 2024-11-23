@@ -3,31 +3,35 @@ package Durak_v1.Model;
 import Durak_v1.Enums.Color;
 
 public class Card {
-    int id;
     int type;
-    String name;
+    String suit;
     Color color;
+    boolean trumpSuit;
 
-    public Card(int id, int type, String name, Color color) {
-        this.id = id;
+    public Card(int type, String suit, Color color) {
         this.type = type;
-        this.name = name;
+        this.suit = suit;
         this.color = color;
-    }
-
-    public int getId() {
-        return id;
+        this.trumpSuit = false;
     }
 
     public int getType() {
-        return type;
+        return this.type;
     }
 
-    public String getName() {
-        return name;
+    public String getSuit() {
+        return this.suit;
     }
 
     public Color getColor() {
-        return color;
+        return this.color;
+    }
+
+    public void setTrumpSuit(){
+        this.trumpSuit = true;
+    }
+
+    public boolean getTrumpSuit(){
+        return trumpSuit;
     }
 }
