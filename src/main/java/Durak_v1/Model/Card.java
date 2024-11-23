@@ -1,29 +1,29 @@
 package Durak_v1.Model;
 
-import Durak_v1.Enums.Color;
+import Durak_v1.Enums.CardColor;
 
 public class Card {
-    int type;
+    CardInfo cardInfo;
     String suit;
-    Color color;
+    CardColor color;
     boolean trumpSuit;
 
-    public Card(int type, String suit, Color color) {
-        this.type = type;
+    public Card(CardInfo cardInfo, String suit, CardColor color) {
+        this.cardInfo = cardInfo;
         this.suit = suit;
         this.color = color;
         this.trumpSuit = false;
     }
 
-    public int getType() {
-        return this.type;
+    public CardInfo getCardInfo() {
+        return this.cardInfo;
     }
 
     public String getSuit() {
         return this.suit;
     }
 
-    public Color getColor() {
+    public CardColor getColor() {
         return this.color;
     }
 

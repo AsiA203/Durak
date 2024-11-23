@@ -1,6 +1,6 @@
 package Durak_v1.Enums;
 
-public enum Color {
+public enum CardColor {
     BLACK,
     WHITE;
 }
