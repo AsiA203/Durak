@@ -20,4 +20,13 @@ public enum CardTypes {
     public int getCardTypeInt(){
         return (value);
     }
+
+    public static CardTypes getCardTypeFromValue(int value){
+        for(CardTypes cardType : CardTypes.values()){
+            if(cardType.value == value){
+                return cardType;
+            }
+        }
+        throw new IllegalArgumentException("Invalid Value: "+ value);
+    }
 }

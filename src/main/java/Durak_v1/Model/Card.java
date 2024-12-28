@@ -1,37 +1,47 @@
 package Durak_v1.Model;
 
-import Durak_v1.Enums.CardColor;
+import Durak_v1.Enums.*;
 
 public class Card {
-    CardInfo cardInfo;
-    String suit;
-    CardColor color;
+    CardSuit cardSuit;
+    CardTypes cardType;
+    CardColor cardColor;
     boolean trumpSuit;
 
-    public Card(CardInfo cardInfo, String suit, CardColor color) {
-        this.cardInfo = cardInfo;
-        this.suit = suit;
-        this.color = color;
+    public Card(CardSuit cardSuit, CardTypes cardType, CardColor cardColor){
+        this.cardSuit = cardSuit;
+        this.cardType = cardType;
+        this.cardColor = cardColor;
         this.trumpSuit = false;
     }
 
-    public CardInfo getCardInfo() {
-        return this.cardInfo;
-    }
-
-    public String getSuit() {
-        return this.suit;
-    }
-
-    public CardColor getColor() {
-        return this.color;
-    }
-
-    public void setTrumpSuit(){
+    public void setTrumpSuitTrue(){
         this.trumpSuit = true;
     }
 
-    public boolean getTrumpSuit(){
+    public boolean getTrumpSuitStatus(){
         return trumpSuit;
+    }
+
+    public CardSuit getCardSuit(){
+        return this.cardSuit;
+    }
+
+    public CardTypes getCardType(){
+        return this.cardType;
+    }
+
+    public CardColor getCardColor(){
+        return this.cardColor;
+    }
+
+    public String toStringFull(){
+        return "Card: Suit - " + getCardSuit() + ", Type - " + getCardType() + ", Color - " +
+                getCardColor() + ", Trump Suit - " + getTrumpSuitStatus();
+    }
+
+    @Override
+    public String toString(){
+        return getCardType() + " - " + getCardSuit();
     }
 }

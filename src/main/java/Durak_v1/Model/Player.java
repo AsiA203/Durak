@@ -1,16 +1,16 @@
 package Durak_v1.Model;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 
 public class Player {
     private int order;
     private String name;
-    private Card [] cards;
+    private ArrayList<Card> cards;
 
     public Player(int order, String name){
         this.order = order;
         this.name = name;
-        this.cards = null;
+        this.cards = new ArrayList<>();
     }
 
     public int getOrder(){
@@ -21,25 +21,25 @@ public class Player {
         return this.name;
     }
 
-    public void setCardInArray(int index, Card card){
-       cards[index] = card;
+    public void setCardInArray(Card card){
+        cards.add(card);
     }
 
     public String getAllCards(){
-        return Arrays.toString(cards);
+        return cards.toString();
     }
 
-    public Card [] getCardsArray(){
+    public ArrayList <Card> getCardsArray(){
         return cards;
     }
 
     public int getCardsArrayLength(){
-        return cards.length;
+        return cards.size();
     }
 
 
     @Override
     public String toString(){
-        return "Number: " + getOrder() + ", Name: " + getName();
+        return "Player: " + getOrder() + ", Name: " + getName();
     }
 }
