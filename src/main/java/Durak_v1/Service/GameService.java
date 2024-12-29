@@ -6,20 +6,33 @@ import Durak_v1.Model.Player;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 import static Durak_v1.Main.cardDeckArray;
 import static Durak_v1.Main.playersArray;
 
 public class GameService {
-    public void GameStartMethod() {
+    Card randomlyChosenTrumpSuitCard;
 
+    /*Game Start*/
+    //Step 1 - initialize card deck depending on which was chosen
+    public void initializeAllCards(int cardDeck) {
+        //initialize 36 card deck
+        if (cardDeck == 36) {
+            initialize36CardDeck();
+        }//TODO: 52 card deck if needed
     }
 
-    //Game Start
-    public void randomChooseTrumpSuit(){
-
+    //Step 2 - shuffle all cards after initializing
+    public void shuffleCardDeck(){
+        Collections.shuffle(cardDeckArray);
+        Collections.shuffle(cardDeckArray);
+        Collections.shuffle(cardDeckArray);
+        Collections.shuffle(cardDeckArray);
     }
 
+    //Step 3 - give out first 6 cards to all the players(give to player and remove from main card deck)
     public void giveOutFirstDrawOfCardsToPlayers(){
         for(int i = 0; i < 6; i++){
             for(int p = 0; p < playersArray.size(); p++){
@@ -28,30 +41,31 @@ public class GameService {
         }
     }
 
-    public void initializeAllCards(ArrayList<Player> newPlayers, int cardDeck) {
-        //save players
-        playersArray = newPlayers;
+    //Step 4 - Choose random card to make its suit a trump suit + save card for Step 5
+    public Card randomTrumpSuitChoice(){
+        int randomCard = ThreadLocalRandom.current().nextInt(0, cardDeckArray.size());
+        cardDeckArray.get(randomCard).setTrumpSuitTrue();
+        return randomlyChosenTrumpSuitCard = cardDeckArray.get(randomCard);
+    }
 
-        //initialize 36 card deck
-        if (cardDeck == 36) {
-            initialize36CardDeck();
-        }//TODO: 52 card deck if needed
+    //Step 5 - Go over main card deck and players' cards to make chosen suit's cards.trumpSuit = true;
+    public void makeChosenSuitsCards_TrumpSuitSetTrue(Card card){
+        for(Card cardObj : cardDeckArray){
+            if(cardObj.getCardSuit() == card.getCardSuit()){
+                cardObj.setTrumpSuitTrue();
+            }
+        }
+
+        for(Player player : playersArray){
+            for(Card cardObj : player.getCardsArray()){
+                if(cardObj.getCardSuit() == card.getCardSuit()){
+                    cardObj.setTrumpSuitTrue();
+                }
+            }
+        }
     }
 
     //Helper Functions
-    public void shuffleCardDeck(){
-        Collections.shuffle(cardDeckArray);
-        Collections.shuffle(cardDeckArray);
-    }
-
-    public ArrayList <Card> getAllCardsInDeck(){
-        return cardDeckArray;
-    }
-
-    public int getCardsArraySize(){
-        return cardDeckArray.size();
-    }
-
     public ArrayList<Card> getPlayersAllCardsOnHand(String playerName) throws Exception{
         for(Player player : playersArray){
             if(player.getName().equals(playerName)){
@@ -79,6 +93,13 @@ public class GameService {
             cardDeckArray.add(spade);
         }
     }
+    //TODO: Create "Initialize52CardDeck" method, if needed
 
-    //TODO: Initialize 52 Card Deck, if needed
+//        public ArrayList <Card> getAllCardsInDeck(){
+//        return cardDeckArray;
+//    }
+
+//    public int getCardsArraySize(){
+//        return cardDeckArray.size();
+//    }
 }

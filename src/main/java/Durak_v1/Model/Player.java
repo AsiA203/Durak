@@ -3,18 +3,12 @@ package Durak_v1.Model;
 import java.util.ArrayList;
 
 public class Player {
-    private int order;
     private String name;
     private ArrayList<Card> cards;
 
-    public Player(int order, String name){
-        this.order = order;
+    public Player(String name){
         this.name = name;
         this.cards = new ArrayList<>();
-    }
-
-    public int getOrder(){
-        return this.order;
     }
 
     public String getName(){
@@ -25,9 +19,14 @@ public class Player {
         cards.add(card);
     }
 
-    public String getAllCards(){
+    public String getAllCardsDefaultToSting(){
         return cards.toString();
     }
+
+//    public String getAllCardsFullToString(){
+//        return cards.toStringFull();
+//        return cards.toStringFull();
+//    }
 
     public ArrayList <Card> getCardsArray(){
         return cards;
@@ -40,6 +39,6 @@ public class Player {
 
     @Override
     public String toString(){
-        return "Player: " + getOrder() + ", Name: " + getName();
+        return "Player, Name: " + getName();
     }
 }
