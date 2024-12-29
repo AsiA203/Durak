@@ -40,66 +40,72 @@ public class Main {
 
 
         //Checking if players don't have any cards yet -> CORRECT
-//        System.out.println(playersArray);
-//        for (Player player : playersArray) {
-//            System.out.println(player.getAllCardsDefaultToSting());
-//        }
+        System.out.println(playersArray);
+        for (Player player : playersArray) {
+            System.out.println(player.getAllCardsDefaultToSting());
+        }
 
         //Checking if the CardTypes getValue() is working correctly -> CORRECT
-//        System.out.println(CardTypes.values()[0]);
+        System.out.println(CardTypes.values()[0]);
 
         //Initializing Game
         GameController gameController = new GameController();
         gameController.initializeCards(cardDeck); //Step 1
 
         //Checking if initializing correct -> CORRECT
-//        System.out.println(cardDeckArray.size());
+        System.out.println(cardDeckArray.size());
         //before shuffling card deck
-//        for (Card card : cardDeckArray) {
-//            System.out.println(card);
-//        }
+        for (Card card : cardDeckArray) {
+            System.out.println(card);
+        }
 
 
         //shuffling cards in main deck
         gameController.shuffleCardDeck(); //Step 2
 
         //checking cardDeckArray size, and it was shuffled correctly -> CORRECT
-//        System.out.println("________________________________________________________" +
-//                "\nAfter shuffling card deck");
-//        System.out.println(cardDeckArray.size());
-//        for (Card card : cardDeckArray) {
-//            System.out.println(card);
-//        }
+        System.out.println("________________________________________________________" +
+                "\nAfter shuffling card deck");
+        System.out.println(cardDeckArray.size());
+        for (Card card : cardDeckArray) {
+            System.out.println(card);
+        }
 
 
         //First Draw (giving out first 6 cards to players)
         gameController.giveOutTheFirstDraw(); //Step 3
 
         //Checking cards of players -> CORRECT
-//        for (Player player : playersArray) {
-//            System.out.println(player.getAllCardsDefaultToSting());
-//        }
+        for (Player player : playersArray) {
+            System.out.println(player.getAllCardsDefaultToSting());
+        }
 
         //Checking if first draw correct by number -> CORRECT
-//        System.out.println("Card Deck: " + gameController.getCardsArraySize());
-//        System.out.println("Player1: " + gameController.getCardsArraySizeOfThePlayer(playersArray.get(0).getName()));
-//        System.out.println("Player2: " + gameController.getCardsArraySizeOfThePlayer(playersArray.get(1).getName()));
+        System.out.println("Card Deck: " + cardDeckArray.size());
+        System.out.println("Player1: " + gameController.getCardsArraySizeOfThePlayer(playersArray.get(0).getName()));
+        System.out.println("Player2: " + gameController.getCardsArraySizeOfThePlayer(playersArray.get(1).getName()));
 
         //Initialize TrumpSuit from main card deck randomly
-        gameController.makeChosenSuitsCards_TrumpSuitSetTrue(gameController.randomTrumpSuitChoice());
+//        gameController.makeChosenSuitsCards_TrumpSuitSetTrue(gameController.randomTrumpSuitChoice()); //Step 4-5
+
+        //validate first with divided method calls
+        Card chosenCard = gameController.randomTrumpSuitChoice();
+        gameController.makeChosenSuitsCards_TrumpSuitSetTrue(chosenCard);
 
         //checking which card from main deck was chosen for Trump Suit Card
-        System.out.print(gameController.randomTrumpSuitChoice().toStringFull());
+        System.out.print("Chosen Card: " + chosenCard.toStringFull() + ". It's index = " + cardDeckArray.indexOf(chosenCard));
 
         //Checking if all cards with chosen suit from main cardDeck was set to true
-        System.out.println(cardDeckArray.size());
-        for (Card card : cardDeckArray) {
-            System.out.println(card.toStringFull());
+        System.out.println("\n---------------------\n" + cardDeckArray.size());
+        for (Card cardObj : cardDeckArray) {
+            System.out.println(cardObj.toStringFull());
         }
 
         //Checking if all cards with chosen suit on hands of players was set to true
-        for (Player player : playersArray) {
-            System.out.println(player.getAllCardsDefaultToSting());
+        for (Player playerObj : playersArray) {
+            for(Card cardObj : playerObj.getCardsArray()){
+                System.out.println(cardObj.toStringFull());
+            }
         }
     }
 }

@@ -23,11 +23,6 @@ public class Player {
         return cards.toString();
     }
 
-//    public String getAllCardsFullToString(){
-//        return cards.toStringFull();
-//        return cards.toStringFull();
-//    }
-
     public ArrayList <Card> getCardsArray(){
         return cards;
     }

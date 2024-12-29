@@ -6,14 +6,12 @@ import Durak_v1.Model.Player;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 import static Durak_v1.Main.cardDeckArray;
 import static Durak_v1.Main.playersArray;
 
 public class GameService {
-    Card randomlyChosenTrumpSuitCard;
 
     /*Game Start*/
     //Step 1 - initialize card deck depending on which was chosen
@@ -41,11 +39,27 @@ public class GameService {
         }
     }
 
-    //Step 4 - Choose random card to make its suit a trump suit + save card for Step 5
-    public Card randomTrumpSuitChoice(){
-        int randomCard = ThreadLocalRandom.current().nextInt(0, cardDeckArray.size());
-        cardDeckArray.get(randomCard).setTrumpSuitTrue();
-        return randomlyChosenTrumpSuitCard = cardDeckArray.get(randomCard);
+    /*Step 4 - 1. Shuffle card deck one more time
+               2. Choose random card to make its suit a trump suit = true
+               2. Shuffle card deck one more time ----------
+               3. Put chosen card at the end of the deck (cardDeckArray.size() - 1)
+               + return card for Step 5
+     */
+    public Card randomTrumpSuitChoice() throws Exception {
+        shuffleCardDeck(); //1 let's try as first step
+        int randomCard = ThreadLocalRandom.current().nextInt(0, cardDeckArray.size()); //1
+        Card card = cardDeckArray.get(randomCard);
+        card.setTrumpSuitTrue();
+        ArrayList<Card> beforeIndexGame = cardDeckArray;
+//        shuffleCardDeck(); //2
+        int chosenCardAt = cardDeckArray.indexOf(card);
+        int lastCardAt = cardDeckArray.indexOf(cardDeckArray.get(cardDeckArray.size() - 1));
+        Collections.swap(cardDeckArray, randomCard, cardDeckArray.size() - 1); //3
+
+        ArrayList<Card> afterIndexGame = cardDeckArray;
+//        if(beforeIndexGame == afterIndexGame) throw new Exception ("Collection Swap didn't work");
+
+        return cardDeckArray.get(randomCard);
     }
 
     //Step 5 - Go over main card deck and players' cards to make chosen suit's cards.trumpSuit = true;

@@ -26,7 +26,7 @@ public class GameController {
     }
 
     //Step 4
-    public Card randomTrumpSuitChoice(){
+    public Card randomTrumpSuitChoice() throws Exception{
         return gameService.randomTrumpSuitChoice();
     }
 
