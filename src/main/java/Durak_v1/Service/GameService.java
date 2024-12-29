@@ -7,10 +7,10 @@ import Durak_v1.Model.Player;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class GameService {
-    ArrayList<Card> cardDeckArray = new ArrayList<>();
-    ArrayList<Player> playersArray = new ArrayList<>();
+import static Durak_v1.Main.cardDeckArray;
+import static Durak_v1.Main.playersArray;
 
+public class GameService {
     public void GameStartMethod() {
 
     }
@@ -30,7 +30,7 @@ public class GameService {
 
     public void initializeAllCards(ArrayList<Player> newPlayers, int cardDeck) {
         //save players
-        this.playersArray = newPlayers;
+        playersArray = newPlayers;
 
         //initialize 36 card deck
         if (cardDeck == 36) {
