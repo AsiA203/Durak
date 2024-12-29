@@ -30,7 +30,12 @@ public class GameController {
         return gameService.randomTrumpSuitChoice();
     }
 
-    //Step 5
+    //Step5
+    public void putChosenTrumpSuitCardAtTheEndOfTheMainCardDeck(Card card){
+        gameService.putChosenTrumpSuitCardAtTheEndOfTheMainCardDeck(card);
+    }
+
+    //Step 6
     public void makeChosenSuitsCards_TrumpSuitSetTrue(Card card){
         gameService.makeChosenSuitsCards_TrumpSuitSetTrue(card);
     }

@@ -89,19 +89,24 @@ public class Main {
 //        gameController.makeChosenSuitsCards_TrumpSuitSetTrue(gameController.randomTrumpSuitChoice()); //Step 4-5
 
         //validate first with divided method calls
-        Card chosenCard = gameController.randomTrumpSuitChoice();
-        gameController.makeChosenSuitsCards_TrumpSuitSetTrue(chosenCard);
+        Card chosenCard = gameController.randomTrumpSuitChoice(); //step 4
 
         //checking which card from main deck was chosen for Trump Suit Card
         System.out.print("Chosen Card: " + chosenCard.toStringFull() + ". It's index = " + cardDeckArray.indexOf(chosenCard));
 
-        //Checking if all cards with chosen suit from main cardDeck was set to true
+        gameController.putChosenTrumpSuitCardAtTheEndOfTheMainCardDeck(chosenCard); //possible new step 5
+        gameController.makeChosenSuitsCards_TrumpSuitSetTrue(chosenCard); //step 5
+
+
+        //Checking if all cards with chosen suit from main cardDeck was set to true and if chosenCard was put at the end of the array
+        System.out.println("\nCards on main card deck");
         System.out.println("\n---------------------\n" + cardDeckArray.size());
         for (Card cardObj : cardDeckArray) {
             System.out.println(cardObj.toStringFull());
         }
 
         //Checking if all cards with chosen suit on hands of players was set to true
+        System.out.println("Players Cards on hand");
         for (Player playerObj : playersArray) {
             for(Card cardObj : playerObj.getCardsArray()){
                 System.out.println(cardObj.toStringFull());

@@ -23,7 +23,12 @@ public class GameService {
     }
 
     //Step 2 - shuffle all cards after initializing
-    public void shuffleCardDeck(){
+    public void shuffleCardDeck() {
+        //Manual
+
+
+
+        //Build-in method use
         Collections.shuffle(cardDeckArray);
         Collections.shuffle(cardDeckArray);
         Collections.shuffle(cardDeckArray);
@@ -31,9 +36,9 @@ public class GameService {
     }
 
     //Step 3 - give out first 6 cards to all the players(give to player and remove from main card deck)
-    public void giveOutFirstDrawOfCardsToPlayers(){
-        for(int i = 0; i < 6; i++){
-            for(int p = 0; p < playersArray.size(); p++){
+    public void giveOutFirstDrawOfCardsToPlayers() {
+        for (int i = 0; i < 6; i++) {
+            for (int p = 0; p < playersArray.size(); p++) {
                 playersArray.get(p).setCardInArray(cardDeckArray.remove(0));
             }
         }
@@ -41,38 +46,34 @@ public class GameService {
 
     /*Step 4 - 1. Shuffle card deck one more time
                2. Choose random card to make its suit a trump suit = true
-               2. Shuffle card deck one more time ----------
-               3. Put chosen card at the end of the deck (cardDeckArray.size() - 1)
                + return card for Step 5
      */
     public Card randomTrumpSuitChoice() throws Exception {
-        shuffleCardDeck(); //1 let's try as first step
-        int randomCard = ThreadLocalRandom.current().nextInt(0, cardDeckArray.size()); //1
+        shuffleCardDeck(); //1
+
+        int randomCard = ThreadLocalRandom.current().nextInt(0, cardDeckArray.size()); //2
         Card card = cardDeckArray.get(randomCard);
         card.setTrumpSuitTrue();
-        ArrayList<Card> beforeIndexGame = cardDeckArray;
-//        shuffleCardDeck(); //2
-        int chosenCardAt = cardDeckArray.indexOf(card);
-        int lastCardAt = cardDeckArray.indexOf(cardDeckArray.get(cardDeckArray.size() - 1));
-        Collections.swap(cardDeckArray, randomCard, cardDeckArray.size() - 1); //3
-
-        ArrayList<Card> afterIndexGame = cardDeckArray;
-//        if(beforeIndexGame == afterIndexGame) throw new Exception ("Collection Swap didn't work");
 
         return cardDeckArray.get(randomCard);
     }
 
-    //Step 5 - Go over main card deck and players' cards to make chosen suit's cards.trumpSuit = true;
-    public void makeChosenSuitsCards_TrumpSuitSetTrue(Card card){
-        for(Card cardObj : cardDeckArray){
-            if(cardObj.getCardSuit() == card.getCardSuit()){
+    //Step 5 - Put chosen card at the end of the deck (cardDeckArray.size() - 1)
+    public void putChosenTrumpSuitCardAtTheEndOfTheMainCardDeck(Card card) {
+        putCardAtIndexInsideCardDeckArray(card, cardDeckArray.indexOf(card), cardDeckArray.size() - 1);
+    }
+
+    //Step 6 - Go over main card deck and players' cards to make chosen suit's cards.trumpSuit = true;
+    public void makeChosenSuitsCards_TrumpSuitSetTrue(Card card) {
+        for (Card cardObj : cardDeckArray) {
+            if (cardObj.getCardSuit() == card.getCardSuit()) {
                 cardObj.setTrumpSuitTrue();
             }
         }
 
-        for(Player player : playersArray){
-            for(Card cardObj : player.getCardsArray()){
-                if(cardObj.getCardSuit() == card.getCardSuit()){
+        for (Player player : playersArray) {
+            for (Card cardObj : player.getCardsArray()) {
+                if (cardObj.getCardSuit() == card.getCardSuit()) {
                     cardObj.setTrumpSuitTrue();
                 }
             }
@@ -80,21 +81,30 @@ public class GameService {
     }
 
     //Helper Functions
-    public ArrayList<Card> getPlayersAllCardsOnHand(String playerName) throws Exception{
-        for(Player player : playersArray){
-            if(player.getName().equals(playerName)){
+    public void putCardAtIndexInsideCardDeckArray(Card card, int swapCardIndex, int putIntoIndex) {
+        cardDeckArray.remove(swapCardIndex);
+        cardDeckArray.add(putIntoIndex, card);
+
+        //Collections.swap(cardDeckArray, randomCard, cardDeckArray.size() - 1);
+        //if(beforeIndexGame == afterIndexGame) throw new Exception ("Collection Swap didn't work");
+        //Could have been used ^, but not working for now //TODO find out why
+    }
+
+    public ArrayList<Card> getPlayersAllCardsOnHand(String playerName) throws Exception {
+        for (Player player : playersArray) {
+            if (player.getName().equals(playerName)) {
                 return player.getCardsArray();
             }
         }
         throw new Exception("No player with this name " + playerName + " was not found.");
     }
 
-    public int getCardsArraySizeOfThePlayer(String playerName) throws Exception{
+    public int getCardsArraySizeOfThePlayer(String playerName) throws Exception {
         return getPlayersAllCardsOnHand(playerName).size();
     }
 
     public void initialize36CardDeck() {
-        for(int i = 0; i < 9; i++) {
+        for (int i = 0; i < 9; i++) {
             int rank = i + 6;
             Card heart = new Card(CardSuit.HEART, CardTypes.getCardTypeFromValue(rank), CardColor.RED);
             Card diamond = new Card(CardSuit.DIAMOND, CardTypes.getCardTypeFromValue(rank), CardColor.RED);
