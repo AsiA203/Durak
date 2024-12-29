@@ -23,7 +23,7 @@ public class Main {
         System.out.println("Please enter how many people will play?"); //2 for now, maybe later add logic players-cardDeck if needed
         int numOfPlayers = scanner.nextInt();
 
-        //Getting Players Names (IDs) //TODO finish util method (check if exist?)
+        //Getting Players Names (IDs) //TODO finish util method (check if exist?) - Priority 2
         for (int i = 0; i < numOfPlayers; i++) {
             Scanner scForLoop = new Scanner(System.in);
             System.out.println("Please enter name of player #" + (i + 1));

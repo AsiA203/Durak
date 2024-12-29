@@ -16,7 +16,7 @@ public class InfoCollection {
         return possibleCardDecks.contains(cardsN);
     }
 
-    //TODO if there's time left
+    //TODO if there's time left - Priority 2
 //    //Check names (IDs) and save if validation passed
 //    public boolean playersSaveCheck(String name){
 //        for(Player playerObj : playersArray){

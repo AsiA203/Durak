@@ -6,6 +6,7 @@ import Durak_v1.Model.Player;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 import static Durak_v1.Main.cardDeckArray;
@@ -23,10 +24,10 @@ public class GameService {
     }
 
     //Step 2 - shuffle all cards after initializing
-    public void shuffleCardDeck() {
-        //Manual
-
-
+    public void shuffleCardDeck(/*int rangeStart, int rangeEnd*/) {
+        //Manual - with range //TODO when extra time, after main game logic - Priority 2
+//        int randomNumber = rangeStart + (int)(Math.random() * ((rangeEnd - rangeStart) + 1));
+//        for(int i = 0; i < )
 
         //Build-in method use
         Collections.shuffle(cardDeckArray);
@@ -87,7 +88,7 @@ public class GameService {
 
         //Collections.swap(cardDeckArray, randomCard, cardDeckArray.size() - 1);
         //if(beforeIndexGame == afterIndexGame) throw new Exception ("Collection Swap didn't work");
-        //Could have been used ^, but not working for now //TODO find out why
+        //Could have been used ^, but not working for now //TODO find out why - Priority 4
     }
 
     public ArrayList<Card> getPlayersAllCardsOnHand(String playerName) throws Exception {
