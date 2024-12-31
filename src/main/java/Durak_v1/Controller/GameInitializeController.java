@@ -45,6 +45,11 @@ public class GameInitializeController {
         return gameService.playerWithLeastStrongTrumpSuitCard(chosenCard);
     }
 
+    //Step 8
+    public void createNewOrderOfPlayersBeforeGameStart(Player gameStarterPlayer){
+        gameService.createNewOrderOfPlayersBeforeGameStart(gameStarterPlayer);
+    }
+
     //Helpers
     public ArrayList<Card> getPlayersAllCardsOnHand(String playerName) throws Exception {
         return gameService.getPlayersAllCardsOnHand(playerName);

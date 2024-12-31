@@ -6,13 +6,13 @@ import Durak_v1.Model.Player;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.concurrent.ThreadLocalRandom;
 
 import static Durak_v1.Main.cardDeckArray;
 import static Durak_v1.Main.playersArray;
 
 public class GameInitializeService {
+    Player gameStarterPlayer;
 
     /*Game Initialize*/
     //Step 1 - initialize card deck depending on which was chosen
@@ -90,7 +90,7 @@ public class GameInitializeService {
                     trumpSuitCardsOnPlayersHands.add(cardObj);
 
                     if(cardObj.getCardType().getCardTypeInt() == 6){
-                        return player; //if someone has least ranked trump suit card, return player right away
+                        return gameStarterPlayer = player; //if someone has least ranked trump suit card, return player right away
                     }
                 }
             }
@@ -103,14 +103,42 @@ public class GameInitializeService {
                     leastRankedCard = cardObj;
                 }
             }
-            return getPlayerWithCard(leastRankedCard); //return player with the least ranked trump suit card
+            return gameStarterPlayer = getPlayerWithCard(leastRankedCard); //return player with the least ranked trump suit card
 
         } else if(trumpSuitCardsOnPlayersHands.size() == 0){
-            return playersArray.get(0); //return first player overall since nobody has trump suit cards on hand
-        } else return getPlayerWithCard(trumpSuitCardsOnPlayersHands.get(0)); //return the player who only has a trump suit card on hand from whole group
+            return gameStarterPlayer = playersArray.get(0); //return first player overall since nobody has trump suit cards on hand
+        } else return gameStarterPlayer = getPlayerWithCard(trumpSuitCardsOnPlayersHands.get(0)); //return the player who only has a trump suit card on hand from whole group
+    }
+
+    /*Step 8 - change order of players and their turns of moving
+               depending on which player should start the game (Step 7)
+     */
+    public void createNewOrderOfPlayersBeforeGameStart(Player gameStarterPlayer){
+        if(playersArray.get(playersArray.size() - 1) == gameStarterPlayer){
+            playersArray.remove(gameStarterPlayer);
+            playersArray.add(0, gameStarterPlayer);
+        } else if(playersArray.get(0) != gameStarterPlayer){
+            shiftPlayersOrderDependingOnGameStartPlayer(gameStarterPlayer);
+        }
+
+
+//        if(playersArray.get(0) != gameStarterPlayer && playersArray.get(playersArray.size() - 1) != gameStarterPlayer){
+//            shiftPlayersOrderDependingOnGameStartPlayer(gameStarterPlayer);
+//        } else if (playersArray.get(playersArray.size() - 1) == gameStarterPlayer){
+//            playersArray.add(0, gameStarterPlayer);
+//            playersArray.remove(gameStarterPlayer);
+//        }
     }
 
     //Helper Functions
+    public void shiftPlayersOrderDependingOnGameStartPlayer(Player gameStartPlayer){
+        for(int i = 0; i < playersArray.indexOf(gameStartPlayer); i++){
+            Player playerToBeMoved = playersArray.get(i);
+            playersArray.remove(i);
+            playersArray.add(playersArray.size() - 1, playerToBeMoved);
+        }
+    }
+
     public Player getPlayerWithCard(Card card) throws Exception {
         for(Player player : playersArray){
             for (Card cardObj : player.getCardsArray()){

@@ -117,10 +117,15 @@ public class Main {
             }
         }
 
-        //Step 7
-        Player playerGameStart = gameController.playerWithLeastStrongTrumpSuitCard(chosenCard);
+        Player gameStarterPlayer = gameController.playerWithLeastStrongTrumpSuitCard(chosenCard); //Step 7
         //Checking if the correct player was selected according to the least ranked trump suit on the hand
-        System.out.println("As a var player: " + playerGameStart.toString());
+        System.out.println("As a var player: " + gameStarterPlayer.toString());
         System.out.println("As a method call: " + gameController.playerWithLeastStrongTrumpSuitCard(chosenCard));
+
+        //Checking the order of players right before reorder (step 8)
+        System.out.println("Before reorder: " + playersArray.toString());
+        gameController.createNewOrderOfPlayersBeforeGameStart(gameStarterPlayer); //Step 8
+        //Checking the order of player after the order
+        System.out.println("After reorder: " + playersArray.toString());
     }
 }
