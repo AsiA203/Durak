@@ -6,15 +6,15 @@ import Durak_v1.Model.Player;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Random;
+import java.util.HashMap;
 import java.util.concurrent.ThreadLocalRandom;
 
 import static Durak_v1.Main.cardDeckArray;
 import static Durak_v1.Main.playersArray;
 
-public class GameService {
+public class GameInitializeService {
 
-    /*Game Start*/
+    /*Game Initialize*/
     //Step 1 - initialize card deck depending on which was chosen
     public void initializeAllCards(int cardDeck) {
         //initialize 36 card deck
@@ -81,7 +81,47 @@ public class GameService {
         }
     }
 
+    //Step 7 - determine who should go first (start game), player with the least ranked trump suit card
+    public Player playerWithLeastStrongTrumpSuitCard(Card chosenCard) throws Exception /*from step 4*/ {
+        ArrayList <Card> trumpSuitCardsOnPlayersHands = new ArrayList<>();
+        for (Player player : playersArray) {
+            for (Card cardObj : player.getCardsArray()) {
+                if (cardObj.getCardSuit() == chosenCard.getCardSuit()) {
+                    trumpSuitCardsOnPlayersHands.add(cardObj);
+
+                    if(cardObj.getCardType().getCardTypeInt() == 6){
+                        return player; //if someone has least ranked trump suit card, return player right away
+                    }
+                }
+            }
+        }
+
+        if(trumpSuitCardsOnPlayersHands.size() > 1){
+            Card leastRankedCard = trumpSuitCardsOnPlayersHands.get(0);
+            for(Card cardObj : trumpSuitCardsOnPlayersHands){
+                if(cardObj.getCardType().getCardTypeInt() < leastRankedCard.getCardType().getCardTypeInt()){
+                    leastRankedCard = cardObj;
+                }
+            }
+            return getPlayerWithCard(leastRankedCard); //return player with the least ranked trump suit card
+
+        } else if(trumpSuitCardsOnPlayersHands.size() == 0){
+            return playersArray.get(0); //return first player overall since nobody has trump suit cards on hand
+        } else return getPlayerWithCard(trumpSuitCardsOnPlayersHands.get(0)); //return the player who only has a trump suit card on hand from whole group
+    }
+
     //Helper Functions
+    public Player getPlayerWithCard(Card card) throws Exception {
+        for(Player player : playersArray){
+            for (Card cardObj : player.getCardsArray()){
+                if(cardObj == card){
+                    return player;
+                }
+            }
+        }
+        throw new Exception("No player with this card at hand");
+    }
+
     public void putCardAtIndexInsideCardDeckArray(Card card, int swapCardIndex, int putIntoIndex) {
         cardDeckArray.remove(swapCardIndex);
         cardDeckArray.add(putIntoIndex, card);

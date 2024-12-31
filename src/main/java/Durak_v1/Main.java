@@ -1,6 +1,6 @@
 package Durak_v1;
 
-import Durak_v1.Controller.GameController;
+import Durak_v1.Controller.GameInitializeController;
 import Durak_v1.Enums.CardTypes;
 import Durak_v1.Model.Card;
 import Durak_v1.Model.Player;
@@ -48,8 +48,8 @@ public class Main {
         //Checking if the CardTypes getValue() is working correctly -> CORRECT
         System.out.println(CardTypes.values()[0]);
 
-        //Initializing Game
-        GameController gameController = new GameController();
+        //Game Initialize
+        GameInitializeController gameController = new GameInitializeController();
         gameController.initializeCards(cardDeck); //Step 1
 
         //Checking if initializing correct -> CORRECT
@@ -82,8 +82,11 @@ public class Main {
 
         //Checking if first draw correct by number -> CORRECT
         System.out.println("Card Deck: " + cardDeckArray.size());
-        System.out.println("Player1: " + gameController.getCardsArraySizeOfThePlayer(playersArray.get(0).getName()));
-        System.out.println("Player2: " + gameController.getCardsArraySizeOfThePlayer(playersArray.get(1).getName()));
+        for(int i = 0; i < playersArray.size(); i++){
+            System.out.println("Player " + (i+1) + ": " + gameController.getCardsArraySizeOfThePlayer(playersArray.get(i).getName()));
+        }
+
+        System.out.println("Player1, card1 on hand's rank: " + playersArray.get(0).getCardsArray().get(0).getCardType().getCardTypeInt());
 
         //Initialize TrumpSuit from main card deck randomly
 //        gameController.makeChosenSuitsCards_TrumpSuitSetTrue(gameController.randomTrumpSuitChoice()); //Step 4-5
@@ -94,8 +97,8 @@ public class Main {
         //checking which card from main deck was chosen for Trump Suit Card
         System.out.print("Chosen Card: " + chosenCard.toStringFull() + ". It's index = " + cardDeckArray.indexOf(chosenCard));
 
-        gameController.putChosenTrumpSuitCardAtTheEndOfTheMainCardDeck(chosenCard); //possible new step 5
-        gameController.makeChosenSuitsCards_TrumpSuitSetTrue(chosenCard); //step 5
+        gameController.putChosenTrumpSuitCardAtTheEndOfTheMainCardDeck(chosenCard); //Step 5
+        gameController.makeChosenSuitsCards_TrumpSuitSetTrue(chosenCard); //Step 6
 
 
         //Checking if all cards with chosen suit from main cardDeck was set to true and if chosenCard was put at the end of the array
@@ -108,9 +111,16 @@ public class Main {
         //Checking if all cards with chosen suit on hands of players was set to true
         System.out.println("Players Cards on hand");
         for (Player playerObj : playersArray) {
+            System.out.println("Player's Name: " + playerObj.getName());
             for(Card cardObj : playerObj.getCardsArray()){
                 System.out.println(cardObj.toStringFull());
             }
         }
+
+        //Step 7
+        Player playerGameStart = gameController.playerWithLeastStrongTrumpSuitCard(chosenCard);
+        //Checking if the correct player was selected according to the least ranked trump suit on the hand
+        System.out.println("As a var player: " + playerGameStart.toString());
+        System.out.println("As a method call: " + gameController.playerWithLeastStrongTrumpSuitCard(chosenCard));
     }
 }

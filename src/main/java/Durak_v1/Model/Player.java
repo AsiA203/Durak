@@ -6,6 +6,10 @@ public class Player {
     private String name;
     private ArrayList<Card> cards;
 
+    public Player(){
+
+    }
+
     public Player(String name){
         this.name = name;
         this.cards = new ArrayList<>();
