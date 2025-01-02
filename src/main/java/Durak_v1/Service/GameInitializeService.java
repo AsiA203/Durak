@@ -114,12 +114,14 @@ public class GameInitializeService {
                depending on which player should start the game (Step 7)
      */
     public void createNewOrderOfPlayersBeforeGameStart(Player gameStarterPlayer){
-        if(playersArray.get(playersArray.size() - 1) == gameStarterPlayer){
-            playersArray.remove(gameStarterPlayer);
-            playersArray.add(0, gameStarterPlayer);
-        } else if(playersArray.get(0) != gameStarterPlayer){
-            shiftPlayersOrderDependingOnGameStartPlayer(gameStarterPlayer);
-        }
+        shiftPlayersOrderDependingOnGameStartPlayer(gameStarterPlayer);
+
+//        if(playersArray.get(playersArray.size() - 1) == gameStarterPlayer){
+//            playersArray.remove(gameStarterPlayer);
+//            playersArray.add(0, gameStarterPlayer);
+//        } else if(playersArray.get(0) != gameStarterPlayer){
+//            shiftPlayersOrderDependingOnGameStartPlayer(gameStarterPlayer);
+//        }
 
 
 //        if(playersArray.get(0) != gameStarterPlayer && playersArray.get(playersArray.size() - 1) != gameStarterPlayer){
@@ -132,10 +134,11 @@ public class GameInitializeService {
 
     //Helper Functions
     public void shiftPlayersOrderDependingOnGameStartPlayer(Player gameStartPlayer){
-        for(int i = 0; i < playersArray.indexOf(gameStartPlayer); i++){
+        int gameStartPlayerIndex = playersArray.indexOf(gameStartPlayer);
+        for(int i = 0; i < gameStartPlayerIndex; i++){
             Player playerToBeMoved = playersArray.get(i);
-            playersArray.remove(i);
-            playersArray.add(playersArray.size() - 1, playerToBeMoved);
+            playersArray.add(playersArray.size(), playerToBeMoved);
+            playersArray.remove(playerToBeMoved);
         }
     }
 
