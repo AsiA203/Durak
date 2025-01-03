@@ -39,8 +39,8 @@ public class GameInitializeService {
     //Step 3 - give out first 6 cards to all the players(give to player and remove from main card deck)
     public void giveOutFirstDrawOfCardsToPlayers() {
         for (int i = 0; i < 6; i++) {
-            for (int p = 0; p < playersArray.size(); p++) {
-                playersArray.get(p).setCardInArray(cardDeckArray.remove(0));
+            for (Player player : playersArray) {
+                player.setCardInArray(cardDeckArray.remove(0));
             }
         }
     }
@@ -49,7 +49,7 @@ public class GameInitializeService {
                2. Choose random card to make its suit a trump suit = true
                + return card for Step 5
      */
-    public Card randomTrumpSuitChoice() throws Exception {
+    public Card randomTrumpSuitChoice(){
         shuffleCardDeck(); //1
 
         int randomCard = ThreadLocalRandom.current().nextInt(0, cardDeckArray.size()); //2
@@ -114,29 +114,19 @@ public class GameInitializeService {
                depending on which player should start the game (Step 7)
      */
     public void createNewOrderOfPlayersBeforeGameStart(Player gameStarterPlayer){
-        shiftPlayersOrderDependingOnGameStartPlayer(gameStarterPlayer);
-
-//        if(playersArray.get(playersArray.size() - 1) == gameStarterPlayer){
-//            playersArray.remove(gameStarterPlayer);
-//            playersArray.add(0, gameStarterPlayer);
-//        } else if(playersArray.get(0) != gameStarterPlayer){
-//            shiftPlayersOrderDependingOnGameStartPlayer(gameStarterPlayer);
-//        }
-
-
-//        if(playersArray.get(0) != gameStarterPlayer && playersArray.get(playersArray.size() - 1) != gameStarterPlayer){
-//            shiftPlayersOrderDependingOnGameStartPlayer(gameStarterPlayer);
-//        } else if (playersArray.get(playersArray.size() - 1) == gameStarterPlayer){
-//            playersArray.add(0, gameStarterPlayer);
-//            playersArray.remove(gameStarterPlayer);
-//        }
+        if(playersArray.get(playersArray.size() - 1) == gameStarterPlayer){
+            playersArray.add(0, gameStarterPlayer);
+            playersArray.remove(playersArray.size() - 1);
+        } else if(playersArray.get(0) != gameStarterPlayer){
+            shiftPlayersOrderDependingOnGameStartPlayer(gameStarterPlayer);
+        }
     }
 
     //Helper Functions
     public void shiftPlayersOrderDependingOnGameStartPlayer(Player gameStartPlayer){
         int gameStartPlayerIndex = playersArray.indexOf(gameStartPlayer);
         for(int i = 0; i < gameStartPlayerIndex; i++){
-            Player playerToBeMoved = playersArray.get(i);
+            Player playerToBeMoved = playersArray.get(0);
             playersArray.add(playersArray.size(), playerToBeMoved);
             playersArray.remove(playerToBeMoved);
         }
