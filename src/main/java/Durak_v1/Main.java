@@ -48,84 +48,43 @@ public class Main {
         //Checking if the CardTypes getValue() is working correctly -> CORRECT
         System.out.println(CardTypes.values()[0]);
 
+        /*Game Initialize - Step 1 - 8*/
+        gameInitialize();
+
+        //Game Start
+    }
+
+
+
+
+
+
+
+
+    //Game Initialize Method to call all needed functions from GameInitializeController
+    private static void gameInitialize() throws Exception {
         //Game Initialize
         GameInitializeController gameController = new GameInitializeController();
         gameController.initializeCards(cardDeck); //Step 1
 
-        //Checking if initializing correct -> CORRECT
-        System.out.println(cardDeckArray.size());
-        //before shuffling card deck
-        for (Card card : cardDeckArray) {
-            System.out.println(card);
-        }
-
-
         //shuffling cards in main deck
         gameController.shuffleCardDeck(); //Step 2
-
-        //checking cardDeckArray size, and it was shuffled correctly -> CORRECT
-        System.out.println("________________________________________________________" +
-                "\nAfter shuffling card deck");
-        System.out.println(cardDeckArray.size());
-        for (Card card : cardDeckArray) {
-            System.out.println(card);
-        }
-
 
         //First Draw (giving out first 6 cards to players)
         gameController.giveOutTheFirstDraw(); //Step 3
 
-        //Checking cards of players -> CORRECT
-        for (Player player : playersArray) {
-            System.out.println(player.getAllCardsDefaultToSting());
-        }
-
-        //Checking if first draw correct by number -> CORRECT
-        System.out.println("Card Deck: " + cardDeckArray.size());
-        for(int i = 0; i < playersArray.size(); i++){
-            System.out.println("Player " + (i+1) + ": " + gameController.getCardsArraySizeOfThePlayer(playersArray.get(i).getName()));
-        }
-
-        System.out.println("Player1, card1 on hand's rank: " + playersArray.get(0).getCardsArray().get(0).getCardType().getCardTypeInt());
-
         //Initialize TrumpSuit from main card deck randomly
-//        gameController.makeChosenSuitsCards_TrumpSuitSetTrue(gameController.randomTrumpSuitChoice()); //Step 4-5
-
-        //validate first with divided method calls
         Card chosenCard = gameController.randomTrumpSuitChoice(); //step 4
 
-        //checking which card from main deck was chosen for Trump Suit Card
-        System.out.print("Chosen Card: " + chosenCard.toStringFull() + ". It's index = " + cardDeckArray.indexOf(chosenCard));
-
+        /*Putting chosen TrumpSuitCard on the end of the deck and
+        make all other cards with same suit to trumpSuit = true*/
         gameController.putChosenTrumpSuitCardAtTheEndOfTheMainCardDeck(chosenCard); //Step 5
         gameController.makeChosenSuitsCards_TrumpSuitSetTrue(chosenCard); //Step 6
 
-
-        //Checking if all cards with chosen suit from main cardDeck was set to true and if chosenCard was put at the end of the array
-        System.out.println("\nCards on main card deck");
-        System.out.println("\n---------------------\n" + cardDeckArray.size());
-        for (Card cardObj : cardDeckArray) {
-            System.out.println(cardObj.toStringFull());
-        }
-
-        //Checking if all cards with chosen suit on hands of players was set to true
-        System.out.println("Players Cards on hand");
-        for (Player playerObj : playersArray) {
-            System.out.println("Player's Name: " + playerObj.getName());
-            for(Card cardObj : playerObj.getCardsArray()){
-                System.out.println(cardObj.toStringFull());
-            }
-        }
-
+        //Find player with the least ranked trump suit card
         Player gameStarterPlayer = gameController.playerWithLeastStrongTrumpSuitCard(chosenCard); //Step 7
-        //Checking if the correct player was selected according to the least ranked trump suit on the hand
-        System.out.println("As a var player: " + gameStarterPlayer.toString());
-        System.out.println("As a method call: " + gameController.playerWithLeastStrongTrumpSuitCard(chosenCard));
 
-        //Checking the order of players right before reorder (step 8)
-        System.out.println("Before reorder: " + playersArray.toString());
+        //ReOrder order of player (playerArray) depending on the player from Step 7
         gameController.createNewOrderOfPlayersBeforeGameStart(gameStarterPlayer); //Step 8
-        //Checking the order of player after the order
-        System.out.println("After reorder: " + playersArray.toString());
     }
 }
