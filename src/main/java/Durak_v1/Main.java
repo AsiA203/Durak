@@ -13,6 +13,7 @@ public class Main {
     public static ArrayList<Card> cardDeckArray = new ArrayList<>();
     public static ArrayList<Player> playersArray = new ArrayList<>();
     public static int cardDeck;
+    public static Player winnerPlayer = null;
 
     public static void main(String[] args) throws Exception {
         //Players and Card Deck Info
@@ -52,6 +53,18 @@ public class Main {
         gameInitialize();
 
         //Game Start
+        ArrayList<Card> movesArray = new ArrayList<>();
+        String moveFormatRequest = "Please enter you move in this format, examples: \n " +
+                "- 6Jack \n - AJack (Ace) \n - or KClub (King)";
+        while(winnerPlayer == null){
+            for(int i = 0; i < playersArray.size(); i++){
+                System.out.println("Player " + playersArray.get(i).getName()
+                        + ", please choose your card/cards for a move from following cards."
+                + "Please move in this format and in order -> 6Jack or AJack( or KClub");
+                System.out.println(playersArray.get(i).getCardsArray().toString());
+                String currentMove =
+            }
+        }
     }
 
 
