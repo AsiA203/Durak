@@ -1,9 +1,29 @@
 package Durak_v1.Service;
 
+import Durak_v1.Enums.MoveStatus;
+import Durak_v1.Model.Card;
+import Durak_v1.Model.CardMove;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class MoveValidatorService {
+
+//    public MoveStatus isMoveValid(CardMove cardMove){
+//        //1st check
+////        boolean isFormatCorrect = isMoveFormatCorrect(move);
+////        if(!isFormatCorrect) return MoveStatus.INPUT_FORMAT_ERROR;
+//
+//        //2nd check
+//
+//
+//     }
+
+
     //Check if move/moves are in correct format
-    public boolean isMoveFormatCorrect(String move){
-        String[] moves;
+    public List<String> isMoveFormatCorrect(String move){
+        String[] moves = new String[6];
         boolean status = false;
         if(move.contains(",")){
             moves = move.split(",");
@@ -11,9 +31,12 @@ public class MoveValidatorService {
             for(String moveObj: moves){
                 status = checkMoveFormat(moveObj);
             }
-            return status;
+        }
 
-        } else return checkMoveFormat(move);
+        if(status){
+
+            return Arrays.asList(moves);
+        } else return null;
     }
 
 

@@ -6,9 +6,7 @@ public class Player {
     private String name;
     private ArrayList<Card> cards;
 
-    public Player(){
-
-    }
+    public Player(){}
 
     public Player(String name){
         this.name = name;
@@ -29,6 +27,14 @@ public class Player {
 
     public ArrayList <Card> getCardsArray(){
         return cards;
+    }
+
+    public void removeCardFromArray(Card card){
+        cards.remove(card);
+    }
+
+    public void addCardIntoCardArray(Card card){
+        cards.add(card);
     }
 
     public int getCardsArrayLength(){

@@ -2,12 +2,15 @@ package Durak_v1;
 
 import Durak_v1.Controller.GameInitializeController;
 import Durak_v1.Enums.CardTypes;
+import Durak_v1.Enums.MoveStatus;
 import Durak_v1.Model.Card;
+import Durak_v1.Model.CardMove;
 import Durak_v1.Model.Player;
 import Durak_v1.Service.MoveValidatorService;
 import Durak_v1.Util.InfoCollection;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -15,6 +18,7 @@ public class Main {
     public static ArrayList<Player> playersArray = new ArrayList<>();
     public static int cardDeck;
     public static Player winnerPlayer = null;
+    public static Card trumpCard = null;
 
     public static void main(String[] args) throws Exception {
         Scanner scanner = new Scanner(System.in);
@@ -26,20 +30,39 @@ public class Main {
         gameInitialize();
 
         //Game Start
-        ArrayList<Card> movesArray = new ArrayList<>();
-        String moveFormatRequest = "Please enter you move in this format, examples: \n " +
+        String moveFormatRequest =
+                "Please enter you move in this format, examples: \n" +
                 "6-Jack \nA-Jack (meaning ACE) \nK-Club (meaning King)\n" +
-                "If you want to select several cards in one move, please use comma(,) between card names.";
-
+                "If you want to select several cards in one move, please use comma(,) " +
+                "between card names.";
         System.out.println(moveFormatRequest);
+        Player currentPlayer = new Player();
         while(winnerPlayer == null){
-            for(int i = 0; i < playersArray.size(); i++){
-                System.out.println("Player " + playersArray.get(i).getName() + " please select your move from: \n"
-                        + playersArray.get(i).getCardsArray().toString());
-                String currentMove = scanner.nextLine();
-                moveValidatorService.isMoveFormatCorrect(currentMove);
+            for(int i = 1; i < 10000; i++){
+                //Which players turn
+                if(i % 2 == 0){
+                    currentPlayer = playersArray.get(1);
+                } else currentPlayer = playersArray.get(0);
+
+                System.out.println("Player " + currentPlayer.getName() +" enter your move: ");
+                System.out.println(currentPlayer.getCardsArray());
+
+                CardMove cardMove;
+                MoveStatus moveStatus;
+                do{
+                    String move = scanner.nextLine();
+                    List<String> moves = moveValidatorService.isMoveFormatCorrect(move);
+
+                    //format check
+                    if(moves == null) System.out.println(MoveStatus.INPUT_FORMAT_ERROR);
+                    else{
+                        cardMove = new CardMove(moves.get(0), currentPlayer, false);
+                    }
+
+
+                } while(moveStatus != MoveStatus.MOVE_VALID && moveStatus == MoveStatus.INPUT_FORMAT_ERROR);
             }
-        }
+        } System.out.println("Player " + winnerPlayer.getName() + "is winner! Game Over.");
     }
 
     //Players and Card Deck Info Collection
@@ -49,7 +72,7 @@ public class Main {
         InfoCollection infoCollection = new InfoCollection();
 
         //Getting Players number
-        System.out.println("Please enter how many people will play?"); //2 for now, maybe later add logic players-cardDeck if needed
+        System.out.println("Please enter how many people will play? Only 2 for now"); //2 for now, maybe later add logic players-cardDeck if needed
         int numOfPlayers = scanner.nextInt();
 
         //Getting Players Names (IDs) //TODO finish util method (check if exist?) - Priority 2
@@ -66,16 +89,6 @@ public class Main {
             System.out.println(cardDeckQuestion);
             cardDeck = scanner.nextInt();
         } while (!infoCollection.cardDeckChoice(cardDeck));
-
-
-        //Checking if players don't have any cards yet -> CORRECT
-        System.out.println(playersArray);
-        for (Player player : playersArray) {
-            System.out.println(player.getAllCardsDefaultToSting());
-        }
-
-        //Checking if the CardTypes getValue() is working correctly -> CORRECT
-        System.out.println(CardTypes.values()[0]);
     }
 
 
@@ -93,6 +106,7 @@ public class Main {
 
         //Initialize TrumpSuit from main card deck randomly
         Card chosenCard = gameController.randomTrumpSuitChoice(); //step 4
+        trumpCard = chosenCard;
 
         /*Putting chosen TrumpSuitCard on the end of the deck and
         make all other cards with same suit to trumpSuit = true*/
@@ -104,5 +118,24 @@ public class Main {
 
         //ReOrder order of player (playerArray) depending on the player from Step 7
         gameController.createNewOrderOfPlayersBeforeGameStart(gameStarterPlayer); //Step 8
+    }
+
+    public static void moveStatusHelper(MoveStatus result) {
+        switch (result) {
+            case MOVE_VALID: {
+                System.out.println(MoveStatus.MOVE_VALID);
+                break;
+            }
+
+            case MOVE_INVALID: {
+                System.out.println(MoveStatus.MOVE_INVALID);
+                break;
+            }
+
+            case INPUT_FORMAT_ERROR: {
+                System.out.println(MoveStatus.INPUT_FORMAT_ERROR);
+                break;
+            }
+        }
     }
 }

@@ -15,6 +15,12 @@ public class Card {
         this.trumpSuit = false;
     }
 
+    public Card(CardSuit cardSuit, CardTypes cardType, CardColor cardColor, boolean trumpSuit){
+        this.cardSuit = cardSuit;
+        this.cardType = cardType;
+        this.cardColor = cardColor;
+        this.trumpSuit = trumpSuit;
+    }
     public void setTrumpSuitTrue(){
         this.trumpSuit = true;
     }
