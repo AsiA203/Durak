@@ -4,6 +4,7 @@ import Durak_v1.Controller.GameInitializeController;
 import Durak_v1.Enums.CardTypes;
 import Durak_v1.Model.Card;
 import Durak_v1.Model.Player;
+import Durak_v1.Service.MoveValidatorService;
 import Durak_v1.Util.InfoCollection;
 
 import java.util.ArrayList;
@@ -16,6 +17,33 @@ public class Main {
     public static Player winnerPlayer = null;
 
     public static void main(String[] args) throws Exception {
+        Scanner scanner = new Scanner(System.in);
+        MoveValidatorService moveValidatorService = new MoveValidatorService();
+
+        //Info Collection
+        gameInfoCollection();
+        //Game Initialize - Step 1 - 8
+        gameInitialize();
+
+        //Game Start
+        ArrayList<Card> movesArray = new ArrayList<>();
+        String moveFormatRequest = "Please enter you move in this format, examples: \n " +
+                "6-Jack \nA-Jack (meaning ACE) \nK-Club (meaning King)\n" +
+                "If you want to select several cards in one move, please use comma(,) between card names.";
+
+        System.out.println(moveFormatRequest);
+        while(winnerPlayer == null){
+            for(int i = 0; i < playersArray.size(); i++){
+                System.out.println("Player " + playersArray.get(i).getName() + " please select your move from: \n"
+                        + playersArray.get(i).getCardsArray().toString());
+                String currentMove = scanner.nextLine();
+                moveValidatorService.isMoveFormatCorrect(currentMove);
+            }
+        }
+    }
+
+    //Players and Card Deck Info Collection
+    public static void gameInfoCollection() {
         //Players and Card Deck Info
         Scanner scanner = new Scanner(System.in);
         InfoCollection infoCollection = new InfoCollection();
@@ -48,30 +76,7 @@ public class Main {
 
         //Checking if the CardTypes getValue() is working correctly -> CORRECT
         System.out.println(CardTypes.values()[0]);
-
-        /*Game Initialize - Step 1 - 8*/
-        gameInitialize();
-
-        //Game Start
-        ArrayList<Card> movesArray = new ArrayList<>();
-        String moveFormatRequest = "Please enter you move in this format, examples: \n " +
-                "- 6Jack \n - AJack (Ace) \n - or KClub (King)";
-        while(winnerPlayer == null){
-            for(int i = 0; i < playersArray.size(); i++){
-                System.out.println("Player " + playersArray.get(i).getName()
-                        + ", please choose your card/cards for a move from following cards."
-                + "Please move in this format and in order -> 6Jack or AJack( or KClub");
-                System.out.println(playersArray.get(i).getCardsArray().toString());
-                String currentMove =
-            }
-        }
     }
-
-
-
-
-
-
 
 
     //Game Initialize Method to call all needed functions from GameInitializeController
