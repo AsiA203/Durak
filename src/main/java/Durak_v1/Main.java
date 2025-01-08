@@ -37,32 +37,32 @@ public class Main {
                 "between card names.";
         System.out.println(moveFormatRequest);
         Player currentPlayer = new Player();
-        while(winnerPlayer == null){
-            for(int i = 1; i < 10000; i++){
-                //Which players turn
-                if(i % 2 == 0){
-                    currentPlayer = playersArray.get(1);
-                } else currentPlayer = playersArray.get(0);
-
-                System.out.println("Player " + currentPlayer.getName() +" enter your move: ");
-                System.out.println(currentPlayer.getCardsArray());
-
-                CardMove cardMove;
-                MoveStatus moveStatus;
-                do{
-                    String move = scanner.nextLine();
-                    List<String> moves = moveValidatorService.isMoveFormatCorrect(move);
-
-                    //format check
-                    if(moves == null) System.out.println(MoveStatus.INPUT_FORMAT_ERROR);
-                    else{
-                        cardMove = new CardMove(moves.get(0), currentPlayer, false);
-                    }
-
-
-                } while(moveStatus != MoveStatus.MOVE_VALID && moveStatus == MoveStatus.INPUT_FORMAT_ERROR);
-            }
-        } System.out.println("Player " + winnerPlayer.getName() + "is winner! Game Over.");
+//        while(winnerPlayer == null){
+//            for(int i = 1; i < 10000; i++){
+//                //Which players turn
+//                if(i % 2 == 0){
+//                    currentPlayer = playersArray.get(1);
+//                } else currentPlayer = playersArray.get(0);
+//
+//                System.out.println("Player " + currentPlayer.getName() +" enter your move: ");
+//                System.out.println(currentPlayer.getCardsArray());
+//
+//                CardMove cardMove;
+//                MoveStatus moveStatus;
+//                do{
+//                    String move = scanner.nextLine();
+//                    List<String> moves = moveValidatorService.isMoveFormatCorrect(move);
+//
+//                    //format check
+//                    if(moves == null) System.out.println(MoveStatus.INPUT_FORMAT_ERROR);
+//                    else{
+//                        cardMove = new CardMove(moves.get(0), currentPlayer, false);
+//                    }
+//
+//
+//                } while(moveStatus != MoveStatus.MOVE_VALID && moveStatus == MoveStatus.INPUT_FORMAT_ERROR);
+//            }
+//        } System.out.println("Player " + winnerPlayer.getName() + "is winner! Game Over.");
     }
 
     //Players and Card Deck Info Collection
